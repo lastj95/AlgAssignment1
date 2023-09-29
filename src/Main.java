@@ -17,7 +17,7 @@ public class Main {
 
         // Asks user for input corresponding to one of the two problems.
         while (alg == 0) {
-            System.out.print("Welcome to Assignment 1.\nEnter 1 for the first problem, enter 2 for the second, " +
+            System.out.print("Welcome to Assignment 1.\nEnter 1 for the stock problem, enter 2 for the tree problem, " +
                              "or enter 3 for both: ");
             Scanner userIn = new Scanner(System.in);
             String input = userIn.nextLine();
@@ -67,11 +67,39 @@ public class Main {
      * Recursively gets the max profit from buying and selling once each in the array.
      */
     public static int stockPriceProblem(int[] vals) {
-        int maxProfit = Integer.MIN_VALUE;
+        return GetMaxHelper(vals, 0, vals.length - 1);
+    }
 
-        // Algorithm goes here! :D
+    public static int GetMaxHelper(int[] arr, int start, int end) {
+        if (start >= end) {
+            return Integer.MIN_VALUE;
+        }
+        else if (end - start == 1) {
+            return arr[end] - arr[start];
+        }
 
-        return maxProfit;
+        int mid = start + ((end - start) / 2);
+        int leftMax = GetMaxHelper(arr, start, mid);
+        int rightMax = GetMaxHelper(arr, mid + 1, end);
+
+        int leftCrossMin = arr[start];
+        int rightCrossMax = arr[mid + 1];
+
+        for(int i = start + 1; i <= mid; i++) {
+            if(arr[i] < leftCrossMin) {
+                leftCrossMin = arr[i];
+            }
+        }
+
+        for(int i = mid + 2; i <= end; i++) {
+            if(arr[i] > rightCrossMax) {
+                rightCrossMax = arr[i];
+            }
+        }
+
+        int crossMax = rightCrossMax - leftCrossMin;
+
+        return Math.max(Math.max(leftMax, rightMax), crossMax);
     }
 
     /*
@@ -102,10 +130,39 @@ public class Main {
      * Recursively determines what element in the list occurs most.
      */
     public static String majorityTree(ArrayList<String> treeList) {
-        String favoriteTree = "No favorite tree :(";
+        String majority = findMajorityHelper(treeList, 0, treeList.size() - 1);
+        return majority != null ? majority : "No favorite tree :(";
+    }
 
-        //Algorithm goes here! :D
+    public static String findMajorityHelper(ArrayList<String> trees, int start, int end) {
+        if(start >= end) {
+            return trees.get(start);
+        }
+        int mid = start + ((end - start) / 2);
+        String leftMajority = findMajorityHelper(trees, start, mid);
+        String rightMajority = findMajorityHelper(trees, mid + 1, end);
+        if(java.util.Objects.equals(leftMajority, rightMajority)) {
+            return leftMajority;
+        }
+        int leftCount = 0;
+        int rightCount = 0;
 
-        return favoriteTree;
+        for(int i = start; i <= end; i++) {
+            if(trees.get(i).equals(leftMajority)) {
+                leftCount++;
+            } else if(trees.get(i).equals(rightMajority)) {
+                rightCount++;
+            }
+        }
+
+        int majorityCount = (end - start) / 2 + 1;
+
+        if(leftCount > majorityCount) {
+            return leftMajority;
+        } else if(rightCount > majorityCount) {
+            return rightMajority;
+        } else {
+            return null;
+        }
     }
 }
