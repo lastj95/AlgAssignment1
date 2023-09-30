@@ -155,11 +155,11 @@ public class Main {
             }
         }
 
-        int majorityCount = (end - start) / 2 + 1;
+        int majorityCount = (end - start + 1) / 2 + 1;
 
-        if(leftCount > majorityCount) {
+        if(leftCount >= majorityCount) {
             return leftMajority;
-        } else if(rightCount > majorityCount) {
+        } else if(rightCount >= majorityCount) {
             return rightMajority;
         } else {
             return null;
