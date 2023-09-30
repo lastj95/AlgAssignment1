@@ -3,7 +3,6 @@ import java.util.Scanner;
 import java.util.Random;
 import java.io.File;
 import java.io.FileNotFoundException;
-//import the Stock class from the Stock.java file
 
 
 /*
@@ -61,9 +60,10 @@ public class Main {
             }
             // Calls the recursive method to print out the max profit for this stock price
             // list.
-            System.out.println("Buy index: " + stockPriceProblem(vals).buy);
-            System.out.println("Sell index: " + stockPriceProblem(vals).sell);
-            System.out.println("Max profit for list " + p + ": " + stockPriceProblem(vals).profit);
+            Stock problemResults = stockPriceProblem(vals);
+            System.out.println("Buy index: " + problemResults.buy);
+            System.out.println("Sell index: " + problemResults.sell);
+            System.out.println("Max profit for list " + p + ": " + problemResults.profit);
         }
     }
 
@@ -166,6 +166,9 @@ public class Main {
      * Recursively determines what element in the list occurs most.
      */
     public static String majorityTree(ArrayList<String> treeList) {
+        if (treeList.isEmpty()) {
+            return "Error: No text was found in the file.";
+        }
         String majority = findMajorityHelper(treeList, 0, treeList.size() - 1);
         return majority != null ? majority : "No favorite tree :(";
     }
